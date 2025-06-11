@@ -72,12 +72,26 @@ app.use('/run/script', express_1.default.json(), (req, res) => {
     const maxUserNum = (_f = (_e = req.body) === null || _e === void 0 ? void 0 : _e.maxUserNum) !== null && _f !== void 0 ? _f : 100;
     res.json(req.body);
 });
-app.use('/run/goal', express_1.default.json(), (req, res) => {
+app.use('/run/goal', express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     // 目标搜索关键词
     const keywords = (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.keywords) !== null && _b !== void 0 ? _b : '';
-    res.json(req.body);
-});
+    const goal = (yield vectorQuery('GOAL', keywords))[0];
+    console.log(goal);
+    const { data } = yield http().post(`xsea/sceneExec/start`, {
+        flag: false,
+        envId: '822313712173449216',
+        workspaceId: goal.data.productId,
+        planId: goal.data.planId,
+        goalId: goal.data.goalId,
+        id: goal.data.sceneId,
+    });
+    const execId = data.object;
+    res.json({
+        success: true,
+        prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${822313712173449216}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
+    });
+}));
 app.use('/api', (req, res, next) => {
     req.headers.cookie = cookie;
     next();
