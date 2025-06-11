@@ -16,6 +16,14 @@ const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
 let cookie = '';
+const http = () => axios_1.default.create({
+    baseURL: `http://10.10.30.103:8081/api`,
+    headers: { cookie },
+});
+const httpPaaS = () => axios_1.default.create({
+    baseURL: `http://10.10.30.103:8083/api`,
+    headers: { cookie },
+});
 const app = (0, express_1.default)();
 app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
@@ -71,7 +79,7 @@ app.use('/api', proxyMiddleware);
 function updateCookie() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
-        const res = yield axios_1.default.post(`http://10.10.30.103:8083/api/paas/users/login`, {
+        const res = yield httpPaaS().post(`paas/users/login`, {
             loginType: "USERNAME",
             password: "8AoKBvcXDBCI/ogMgvNQNg==",
             sessionId: "",
@@ -81,6 +89,14 @@ function updateCookie() {
         });
         cookie = ((_a = res.headers['set-cookie']) !== null && _a !== void 0 ? _a : []).map((item) => item.split(';')[0]).join('; ');
         console.log(cookie);
+    });
+}
+function vectorQuery(type, keywords) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var _a;
+        const { data } = yield http().post(`xsea/vector/query`, { type, text: keywords });
+        const result = (_a = data.object) !== null && _a !== void 0 ? _a : [];
+        return result;
     });
 }
 function main() {

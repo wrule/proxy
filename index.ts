@@ -5,6 +5,16 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 let cookie = '';
 
+const http = () => axios.create({
+  baseURL: `http://10.10.30.103:8081/api`,
+  headers: { cookie },
+});
+
+const httpPaaS = () => axios.create({
+  baseURL: `http://10.10.30.103:8083/api`,
+  headers: { cookie },
+});
+
 const app = express();
 
 app.use('/test', express.json(), (req: Request, res: Response) => {
@@ -61,7 +71,7 @@ const proxyMiddleware = createProxyMiddleware<Request, Response>({
 app.use('/api', proxyMiddleware);
 
 async function updateCookie() {
-  const res = await axios.post(`http://10.10.30.103:8083/api/paas/users/login`, {
+  const res = await httpPaaS().post(`paas/users/login`, {
     loginType: "USERNAME",
     password: "8AoKBvcXDBCI/ogMgvNQNg==",
     sessionId: "",
@@ -71,6 +81,12 @@ async function updateCookie() {
   });
   cookie = (res.headers['set-cookie'] ?? []).map((item) => item.split(';')[0]).join('; ');
   console.log(cookie);
+}
+
+async function vectorQuery(type: string, keywords: string) {
+  const { data } = await http().post(`xsea/vector/query`, { type, text: keywords });
+  const result: any[] = data.object ?? [];
+  return result;
 }
 
 async function main() {
