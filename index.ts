@@ -8,12 +8,12 @@ let cookie = '';
 const envId = () => /sys_env_id=(\d+)/.exec(cookie)?.[1];
 
 const http = () => axios.create({
-  baseURL: `http://10.10.30.103:8081/api`,
+  baseURL: `${process.env.XSEA_URL}/api`,
   headers: { cookie },
 });
 
 const httpPaaS = () => axios.create({
-  baseURL: `http://10.10.30.103:8083/api`,
+  baseURL: `${process.env.XSEA_URL}/api`,
   headers: { cookie },
 });
 
@@ -157,9 +157,9 @@ app.use('/run/script', express.json(), async (req: Request, res: Response) => {
     res.json({
       success: !!success,
       ...(success ? {
-        prompt: `脚本"${script.data.scriptName}"压测启动成功！持续时间${duration}秒，最大并发${maxUserNum}。[点击查看压测执行页面](http://10.10.30.103:8081/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object})`,
-        execUrl: `http://10.10.30.103:8081/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object}`,
-        sceneUrl: `http://10.10.30.103:8081/${envId()}/product/business/${productId}/plan/target?id=${targetPlan.id}&goalId=${targetGoal.id}`,
+        prompt: `脚本"${script.data.scriptName}"压测启动成功！持续时间${duration}秒，最大并发${maxUserNum}。[点击查看压测执行页面](${process.env.XSEA_URL}/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object})`,
+        execUrl: `${process.env.XSEA_URL}/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object}`,
+        sceneUrl: `${process.env.XSEA_URL}/${envId()}/product/business/${productId}/plan/target?id=${targetPlan.id}&goalId=${targetGoal.id}`,
       } : {
         prompt: `压测启动失败：${execData.message || '未知错误'}`,
         errorInfo: execData,
@@ -191,7 +191,7 @@ app.use('/run/goal', express.json(), async (req: Request, res: Response) => {
   res.json({
     success: data.success,
     ...(data.success ? {
-      prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
+      prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](${process.env.XSEA_URL}/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
     } : {
       message: data.message,
     }),
@@ -204,7 +204,7 @@ app.use('/api', (req: Request, res: Response, next: NextFunction) => {
 });
 
 const proxyMiddleware = createProxyMiddleware<Request, Response>({
-  target: 'http://10.10.30.103:8081/api',
+  target: `${process.env.XSEA_URL}/api`,
   changeOrigin: true,
 });
 
