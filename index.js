@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
 const app = (0, express_1.default)();
 const proxyMiddleware = (0, http_proxy_middleware_1.createProxyMiddleware)({
-    target: 'http://www.example.org/api',
+    target: 'http://10.10.31.20:8081/api',
     changeOrigin: true,
 });
 app.use('/api', proxyMiddleware);

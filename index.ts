@@ -6,7 +6,7 @@ import type { Filter, Options, RequestHandler } from 'http-proxy-middleware';
 const app = express();
 
 const proxyMiddleware = createProxyMiddleware<Request, Response>({
-  target: 'http://www.example.org/api',
+  target: 'http://10.10.31.20:8081/api',
   changeOrigin: true,
 });
 
