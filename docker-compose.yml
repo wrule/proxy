@@ -8,7 +8,7 @@ services:
     ports:
       - "42800:42800"
     volumes:
-      - ../:/root/next-ai
+      - ./:/root/next-ai
     command: npm run start
     restart: "unless-stopped"
   next-ai-install:
@@ -16,7 +16,7 @@ services:
     container_name: next-ai-install
     working_dir: /root/next-ai
     volumes:
-      - ../:/root/next-ai
+      - ./:/root/next-ai
     command: npm install
     restart: "no"
   next-ai-dev:
@@ -26,7 +26,7 @@ services:
     ports:
       - "42900:42900"
     volumes:
-      - ../:/root/next-ai
+      - ./:/root/next-ai
     command: npm run dev
     restart: "no"
   next-ai-build:
@@ -34,7 +34,7 @@ services:
     container_name: next-ai-build
     working_dir: /root/next-ai
     volumes:
-      - ../:/root/next-ai
+      - ./:/root/next-ai
     command: npm run build
     restart: "no"
   next-ai-start:
@@ -44,6 +44,6 @@ services:
     ports:
       - "42800:42800"
     volumes:
-      - ../:/root/next-ai
+      - ./:/root/next-ai
     command: npm run start
     restart: "no"
