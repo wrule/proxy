@@ -11,39 +11,39 @@ services:
       - ./:/root/next-ai
     command: npm run start
     restart: "unless-stopped"
-  next-ai-install:
-    image: next-ai-node:22
-    container_name: next-ai-install
-    working_dir: /root/next-ai
-    volumes:
-      - ./:/root/next-ai
-    command: npm install
-    restart: "no"
-  next-ai-dev:
-    image: next-ai-node:22
-    container_name: next-ai-dev
-    working_dir: /root/next-ai
-    ports:
-      - "8095:3000"
-    volumes:
-      - ./:/root/next-ai
-    command: npm run dev
-    restart: "no"
-  next-ai-build:
-    image: next-ai-node:22
-    container_name: next-ai-build
-    working_dir: /root/next-ai
-    volumes:
-      - ./:/root/next-ai
-    command: npm run build
-    restart: "no"
-  next-ai-start:
-    image: next-ai-node:22
-    container_name: next-ai-start
-    working_dir: /root/next-ai
-    ports:
-      - "8095:3000"
-    volumes:
-      - ./:/root/next-ai
-    command: npm run start
-    restart: "no"
+  # next-ai-install:
+  #   image: next-ai-node:22
+  #   container_name: next-ai-install
+  #   working_dir: /root/next-ai
+  #   volumes:
+  #     - ./:/root/next-ai
+  #   command: npm install
+  #   restart: "no"
+  # next-ai-dev:
+  #   image: next-ai-node:22
+  #   container_name: next-ai-dev
+  #   working_dir: /root/next-ai
+  #   ports:
+  #     - "8095:3000"
+  #   volumes:
+  #     - ./:/root/next-ai
+  #   command: npm run dev
+  #   restart: "no"
+  # next-ai-build:
+  #   image: next-ai-node:22
+  #   container_name: next-ai-build
+  #   working_dir: /root/next-ai
+  #   volumes:
+  #     - ./:/root/next-ai
+  #   command: npm run build
+  #   restart: "no"
+  # next-ai-start:
+  #   image: next-ai-node:22
+  #   container_name: next-ai-start
+  #   working_dir: /root/next-ai
+  #   ports:
+  #     - "8095:3000"
+  #   volumes:
+  #     - ./:/root/next-ai
+  #   command: npm run start
+  #   restart: "no"
