@@ -11,6 +11,18 @@ app.use('/test', express.json(), (req: Request, res: Response) => {
   res.json(req.body);
 });
 
+app.use('/detail', express.json(), (req: Request, res: Response) => {
+  res.json(req.body);
+});
+
+app.use('/test/script', express.json(), (req: Request, res: Response) => {
+  res.json(req.body);
+});
+
+app.use('/test/goal', express.json(), (req: Request, res: Response) => {
+  res.json(req.body);
+});
+
 app.use('/api', (req: Request, res: Response, next: NextFunction) => {
   req.headers.cookie = cookie;
   next();

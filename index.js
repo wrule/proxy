@@ -20,6 +20,15 @@ const app = (0, express_1.default)();
 app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
+app.use('/detail', express_1.default.json(), (req, res) => {
+    res.json(req.body);
+});
+app.use('/test/script', express_1.default.json(), (req, res) => {
+    res.json(req.body);
+});
+app.use('/test/goal', express_1.default.json(), (req, res) => {
+    res.json(req.body);
+});
 app.use('/api', (req, res, next) => {
     req.headers.cookie = cookie;
     next();
