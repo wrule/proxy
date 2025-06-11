@@ -68,7 +68,6 @@ app.use('/run/goal', express.json(), async (req: Request, res: Response) => {
   // 目标搜索关键词
   const keywords = req.body?.keywords ?? '';
   const goal = (await vectorQuery('GOAL', keywords))[0];
-  console.log(goal);
   const { data } = await http().post(`xsea/sceneExec/start`, {
     flag: false,
     envId: envId(),
@@ -80,7 +79,7 @@ app.use('/run/goal', express.json(), async (req: Request, res: Response) => {
   const execId = data.object;
   res.json({
     success: true,
-    prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${822313712173449216}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
+    prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
   });
 });
 
