@@ -34,10 +34,14 @@ app.use('/detail', express_1.default.json(), (req, res) => __awaiter(void 0, voi
     const keywords = (_d = (_c = req.body) === null || _c === void 0 ? void 0 : _c.keywords) !== null && _d !== void 0 ? _d : '';
     if (type === 'SCRIPT') {
         const script = (yield vectorQuery(type, keywords))[0];
+        const [{ data: meta }, { data: detail }] = yield Promise.all([
+            http().post(`xsea/script/query`, { scriptId: script.data.scriptId, workspaceId: script.data.productId }),
+            http().post(`xsea/script/queryDetail`, { scriptId: script.data.scriptId, workspaceId: script.data.productId }),
+        ]);
         res.json({
             success: true,
-            prompt: `请向用户简要解释 detail 字段内的关键信息`,
-            detail: script,
+            prompt: `请向用户简要解释 detail 字段内的关键信息，200字以内`,
+            detail: { meta, detail },
         });
     }
     else if (type === 'RECORD') {

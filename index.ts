@@ -26,10 +26,14 @@ app.use('/detail', express.json(), async (req: Request, res: Response) => {
   const keywords = req.body?.keywords ?? '';
   if (type === 'SCRIPT') {
     const script = (await vectorQuery(type, keywords))[0];
+    const [{ data: meta }, { data: detail }] = await Promise.all([
+      http().post(`xsea/script/query`, { scriptId: script.data.scriptId, workspaceId: script.data.productId }),
+      http().post(`xsea/script/queryDetail`, { scriptId: script.data.scriptId, workspaceId: script.data.productId }),
+    ]);
     res.json({
       success: true,
-      prompt: `请向用户简要解释 detail 字段内的关键信息`,
-      detail: script,
+      prompt: `请向用户简要解释 detail 字段内的关键信息，200字以内`,
+      detail: { meta, detail },
     });
   } else if (type === 'RECORD') {
     const record = (await vectorQuery(type, keywords))[0];
