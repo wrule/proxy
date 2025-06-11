@@ -1,19 +1,19 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "向量搜索查询",
-    "description": "根据关键词在指定类型的数据中进行向量搜索，支持产品、脚本、计划、目标、压测记录、测试报告、定时任务等多种数据类型的智能搜索",
+    "title": "XSea工具调用",
+    "description": "XSea平台功能调用工具集，根据用户意图自动选择合适的工具",
     "version": "v1.0.0"
   },
   "servers": [
     {
-      "url": "http://192.168.8.139:3000"
+      "url": "http://192.168.8.139:8095"
     }
   ],
   "paths": {
     "/api/xsea/vector/query": {
       "post": {
-        "description": "使用AI生成的关键词在指定数据类型中进行向量搜索，返回相关的数据列表",
+        "description": "当用户需要搜索、查找、列出某类数据时调用。触发词包括：'搜索'、'查找'、'有哪些'、'列出'、'显示所有'等。用于获取数据列表供用户选择",
         "operationId": "VectorQuery",
         "requestBody": {
           "required": true,
@@ -25,38 +25,102 @@
                   "type": {
                     "type": "string",
                     "enum": ["PRODUCT", "SCRIPT", "PLAN", "GOAL", "RECORD", "REPORT", "SCHEDULE"],
-                    "description": "搜索的数据类型：PRODUCT(产品)、SCRIPT(脚本)、PLAN(计划)、GOAL(目标)、RECORD(压测记录)、REPORT(测试报告)、SCHEDULE(定时任务)"
+                    "description": "必须使用英文枚举值：PRODUCT、SCRIPT、PLAN、GOAL、RECORD、REPORT、SCHEDULE"
                   },
-                  "text": {
+                  "keywords": {
                     "type": "string",
-                    "description": "搜索关键词，可以是一个或多个关键词，由AI自动生成"
+                    "description": "从用户输入中提取的关键词，用于精确搜索"
                   }
                 },
-                "required": ["type", "text"]
+                "required": ["type", "keywords"]
               }
             }
           }
-        },
-        "deprecated": false
+        }
       }
-    }
-  },
-  "components": {
-    "schemas": {
-      "VectorQueryRequest": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": ["PRODUCT", "SCRIPT", "PLAN", "GOAL", "RECORD", "REPORT", "SCHEDULE"],
-            "description": "数据类型"
-          },
-          "text": {
-            "type": "string",
-            "description": "搜索关键词"
+    },
+    "/detail": {
+      "post": {
+        "description": "当用户想了解某个具体对象的详细信息时必须调用。触发词包括：'详细信息'、'详情'、'具体参数'、'配置'、'介绍一下'、'解释下'、'第X个'、'这个XXX的详情'等。获取对象的完整技术细节",
+        "operationId": "GetDetail",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["PRODUCT", "SCRIPT", "PLAN", "GOAL", "RECORD", "REPORT", "SCHEDULE"],
+                    "description": "必须使用英文枚举值：PRODUCT、SCRIPT、PLAN、GOAL、RECORD、REPORT、SCHEDULE"
+                  },
+                  "keywords": {
+                    "type": "string",
+                    "description": "用于定位具体对象的关键词，如对象名称、编号或用户提到的标识"
+                  }
+                },
+                "required": ["type", "keywords"]
+              }
+            }
           }
-        },
-        "required": ["type", "text"]
+        }
+      }
+    },
+    "/run/script": {
+      "post": {
+        "description": "当用户明确要求执行、运行、启动压测脚本时调用。触发词包括：'执行脚本'、'运行脚本'、'压测'、'开始测试'、'启动'等。用于实际执行压力测试",
+        "operationId": "RunScript",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "string",
+                    "description": "要执行的脚本关键词或名称"
+                  },
+                  "duration": {
+                    "type": "integer",
+                    "description": "压测持续时长（秒），用户未指定时默认120秒",
+                    "default": 120
+                  },
+                  "maxUserNum": {
+                    "type": "integer",
+                    "description": "最大并发用户数，用户未指定时默认100",
+                    "default": 100
+                  }
+                },
+                "required": ["keywords"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/run/goal": {
+      "post": {
+        "description": "当用户明确要求执行、运行、启动压测目标时调用。触发词包括：'执行目标'、'运行目标'、'开始目标测试'、'启动目标'等。用于执行预设的测试目标",
+        "operationId": "RunGoal",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "string",
+                    "description": "要执行的目标关键词或名称"
+                  }
+                },
+                "required": ["keywords"]
+              }
+            }
+          }
+        }
       }
     }
   }

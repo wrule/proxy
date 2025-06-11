@@ -1,0 +1,173 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: agent-chat
+  name: XSea智能体
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: yangyaofei/vllm:0.1.5@3eecf807d9767f40eb757ff70720291aa6055e9e1803893b4c93b61a5d4d4319
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 5
+    prompt: null
+    strategy: function_call
+    tools:
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: c9266363-0ae5-418c-9e52-b5892554e5b1
+      provider_name: 测试
+      provider_type: api
+      tool_label: VectorQuery
+      tool_name: VectorQuery
+      tool_parameters:
+        keywords: ''
+        type: ''
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: c9266363-0ae5-418c-9e52-b5892554e5b1
+      provider_name: 测试
+      provider_type: api
+      tool_label: GetDetail
+      tool_name: GetDetail
+      tool_parameters:
+        keywords: ''
+        type: ''
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: c9266363-0ae5-418c-9e52-b5892554e5b1
+      provider_name: 测试
+      provider_type: api
+      tool_label: RunScript
+      tool_name: RunScript
+      tool_parameters:
+        duration: ''
+        keywords: ''
+        maxUserNum: ''
+    - enabled: true
+      isDeleted: false
+      notAuthor: false
+      provider_id: c9266363-0ae5-418c-9e52-b5892554e5b1
+      provider_name: 测试
+      provider_type: api
+      tool_label: RunGoal
+      tool_name: RunGoal
+      tool_parameters:
+        keywords: ''
+  annotation_reply:
+    enabled: false
+  chat_prompt_config: {}
+  completion_prompt_config: {}
+  dataset_configs:
+    datasets:
+      datasets:
+      - dataset:
+          enabled: true
+          id: 4ee8a8a8-94a4-4c9c-b561-9c627eb0eadf
+    reranking_enable: false
+    reranking_mode: reranking_model
+    reranking_model:
+      reranking_model_name: ''
+      reranking_provider_name: ''
+    retrieval_model: multiple
+    top_k: 4
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    allowed_file_extensions:
+    - .JPG
+    - .JPEG
+    - .PNG
+    - .GIF
+    - .WEBP
+    - .SVG
+    - .MP4
+    - .MOV
+    - .MPEG
+    - .WEBM
+    allowed_file_types: []
+    allowed_file_upload_methods:
+    - remote_url
+    - local_file
+    enabled: false
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+    number_limits: 3
+  model:
+    completion_params:
+      stop: []
+    mode: chat
+    name: Qwen2.5-32B-Instruct
+    provider: yangyaofei/vllm/vllm
+  more_like_this:
+    enabled: false
+  opening_statement: ''
+  pre_prompt: 'XSea是一个性能压测平台
+
+    - 你是XSea这个平台的AI助手
+
+    - 你可以帮助用户解答关于XSea或者性能测试的相关问题
+
+    - 避免回答非测试领域的问题
+
+
+    调用VectorQuery工具
+
+    - 确保返回的结果以markdown table的形式渲染
+
+    - 避免展示各类id列
+
+    - 如果返回数据中含有对象的从属信息，请展示从属信息，（如：所属计划，所属产品）
+
+
+    用户有编写或者修改脚本的需求
+
+    - 确保每次都全量输出完整的脚本
+
+    - 避免仅输出需要修改的部分
+
+    - 避免多余的解释
+
+
+    用户发来的是页面上的文本或者结构信息
+
+    - 确保理解用户当前所在页面后解释页面功能
+
+    - 避免长篇大论
+
+    - 引导用户下一步的操作
+
+    - 分析页面上的关键信息
+
+    '
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    configs: []
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form: []
+version: 0.3.0
