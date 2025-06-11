@@ -21,7 +21,25 @@ app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
 app.use('/detail', express_1.default.json(), (req, res) => {
-    res.json(req.body);
+    const { type, keywords } = req.body;
+    if (type === 'SCRIPT') {
+        res.json({
+            success: true,
+            prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
+        });
+    }
+    else if (type === 'RECORD') {
+        res.json({
+            success: true,
+            prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
+        });
+    }
+    else {
+        res.json({
+            success: false,
+            prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
+        });
+    }
 });
 app.use('/run/script', express_1.default.json(), (req, res) => {
     res.json(req.body);
