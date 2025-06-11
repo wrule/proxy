@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
 const app = (0, express_1.default)();
+app.use(express_1.default.json()).use('/test', (req, res) => {
+    console.log(req.url, req.body);
+    res.json(req.body);
+});
 app.use('/api', (req, res, next) => {
     console.log(req.url, req.body);
     req.headers.cookie = 'sys_token=13e2ad0f65574cc497759e121573de67; sys_env_id=822313712173449216; sys_env_code=Init';
