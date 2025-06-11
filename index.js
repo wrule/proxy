@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
+let cookie = '';
 const app = (0, express_1.default)();
 app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
@@ -29,7 +30,7 @@ const proxyMiddleware = (0, http_proxy_middleware_1.createProxyMiddleware)({
 });
 app.use('/api', proxyMiddleware);
 app.listen(3000);
-function loginGetCookie() {
+function updateCookie() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
         const res = yield axios_1.default.post(`http://10.10.30.103:8083/api/paas/users/login`, {
@@ -40,12 +41,13 @@ function loginGetCookie() {
             token: "",
             userName: "admin",
         });
-        return ((_a = res.headers['set-cookie']) !== null && _a !== void 0 ? _a : []).map((item) => item.split(';')[0]).join('; ');
+        cookie = ((_a = res.headers['set-cookie']) !== null && _a !== void 0 ? _a : []).map((item) => item.split(';')[0]).join('; ');
+        return cookie;
     });
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(yield loginGetCookie());
+        console.log(yield updateCookie());
     });
 }
 main();

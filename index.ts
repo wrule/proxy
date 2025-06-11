@@ -3,6 +3,8 @@ import express from 'express';
 import type { NextFunction, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
+let cookie = '';
+
 const app = express();
 
 app.use('/test', express.json(), (req: Request, res: Response) => {
@@ -23,7 +25,7 @@ app.use('/api', proxyMiddleware);
 
 app.listen(3000);
 
-async function loginGetCookie() {
+async function updateCookie() {
   const res = await axios.post(`http://10.10.30.103:8083/api/paas/users/login`, {
     loginType: "USERNAME",
     password: "8AoKBvcXDBCI/ogMgvNQNg==",
@@ -32,11 +34,12 @@ async function loginGetCookie() {
     token: "",
     userName: "admin",
   });
-  return (res.headers['set-cookie'] ?? []).map((item) => item.split(';')[0]).join('; ');
+  cookie = (res.headers['set-cookie'] ?? []).map((item) => item.split(';')[0]).join('; ');
+  return cookie;
 }
 
 async function main() {
-  console.log(await loginGetCookie());
+  console.log(await updateCookie());
 }
 
 main();
