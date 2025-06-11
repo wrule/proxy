@@ -21,18 +21,22 @@ app.use('/test', express.json(), (req: Request, res: Response) => {
   res.json(req.body);
 });
 
-app.use('/detail', express.json(), (req: Request, res: Response) => {
+app.use('/detail', express.json(), async (req: Request, res: Response) => {
   const type = req.body?.type ?? '';
   const keywords = req.body?.keywords ?? '';
   if (type === 'SCRIPT') {
+    const script = (await vectorQuery(type, keywords))[0];
     res.json({
       success: true,
-      prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
+      prompt: `请向用户简要解释 detail 字段内的关键信息`,
+      detail: script,
     });
   } else if (type === 'RECORD') {
+    const record = (await vectorQuery(type, keywords))[0];
     res.json({
       success: true,
-      prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
+      prompt: `请向用户简要解释 detail 字段内的关键信息`,
+      detail: record,
     });
   } else {
     res.json({

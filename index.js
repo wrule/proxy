@@ -28,20 +28,24 @@ const app = (0, express_1.default)();
 app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
-app.use('/detail', express_1.default.json(), (req, res) => {
+app.use('/detail', express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const type = (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.type) !== null && _b !== void 0 ? _b : '';
     const keywords = (_d = (_c = req.body) === null || _c === void 0 ? void 0 : _c.keywords) !== null && _d !== void 0 ? _d : '';
     if (type === 'SCRIPT') {
+        const script = (yield vectorQuery(type, keywords))[0];
         res.json({
             success: true,
-            prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
+            prompt: `请向用户简要解释 detail 字段内的关键信息`,
+            detail: script,
         });
     }
     else if (type === 'RECORD') {
+        const record = (yield vectorQuery(type, keywords))[0];
         res.json({
             success: true,
-            prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
+            prompt: `请向用户简要解释 detail 字段内的关键信息`,
+            detail: record,
         });
     }
     else {
@@ -50,7 +54,7 @@ app.use('/detail', express_1.default.json(), (req, res) => {
             prompt: `暂时不支持查看 ${type} 详情，请用中文向用户解释`,
         });
     }
-});
+}));
 app.use('/run/script', express_1.default.json(), (req, res) => {
     var _a, _b, _c, _d, _e, _f;
     // 脚本搜索关键字
