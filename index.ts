@@ -13,7 +13,7 @@ const http = () => axios.create({
 });
 
 const httpPaaS = () => axios.create({
-  baseURL: `${process.env.XSEA_URL}/api`,
+  baseURL: `${process.env.PAAS_URL}/api`,
   headers: { cookie },
 });
 
