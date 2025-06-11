@@ -81,7 +81,7 @@ app.use('/run/goal', express_1.default.json(), (req, res) => __awaiter(void 0, v
     console.log(goal);
     const { data } = yield http().post(`xsea/sceneExec/start`, {
         flag: false,
-        envId: '822313712173449216',
+        envId: envId(),
         workspaceId: goal.data.productId,
         planId: goal.data.planId,
         goalId: goal.data.goalId,
