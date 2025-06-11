@@ -16,6 +16,7 @@ const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
 let cookie = '';
+const envId = () => { var _a; return (_a = /sys_env_id=(\d+)/.exec(cookie)) === null || _a === void 0 ? void 0 : _a[1]; };
 const http = () => axios_1.default.create({
     baseURL: `http://10.10.30.103:8081/api`,
     headers: { cookie },

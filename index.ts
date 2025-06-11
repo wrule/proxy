@@ -4,6 +4,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 let cookie = '';
+const envId = () => /sys_env_id=(\d+)/.exec(cookie)?.[1];
 
 const http = () => axios.create({
   baseURL: `http://10.10.30.103:8081/api`,
