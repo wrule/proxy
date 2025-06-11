@@ -23,10 +23,10 @@ app.use('/test', express_1.default.json(), (req, res) => {
 app.use('/detail', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
-app.use('/test/script', express_1.default.json(), (req, res) => {
+app.use('/run/script', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
-app.use('/test/goal', express_1.default.json(), (req, res) => {
+app.use('/run/goal', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
 app.use('/api', (req, res, next) => {

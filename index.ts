@@ -15,11 +15,11 @@ app.use('/detail', express.json(), (req: Request, res: Response) => {
   res.json(req.body);
 });
 
-app.use('/test/script', express.json(), (req: Request, res: Response) => {
+app.use('/run/script', express.json(), (req: Request, res: Response) => {
   res.json(req.body);
 });
 
-app.use('/test/goal', express.json(), (req: Request, res: Response) => {
+app.use('/run/goal', express.json(), (req: Request, res: Response) => {
   res.json(req.body);
 });
 
