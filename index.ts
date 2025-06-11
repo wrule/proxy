@@ -33,6 +33,7 @@ app.use('/detail', express.json(), (req: Request, res: Response) => {
 });
 
 app.use('/run/script', express.json(), (req: Request, res: Response) => {
+  // 脚本搜索关键字
   const keywords = req.body?.keywords ?? '';
   // 持续时长，默认两分钟
   const duration = req.body?.duration ?? 60 * 2;
@@ -42,6 +43,7 @@ app.use('/run/script', express.json(), (req: Request, res: Response) => {
 });
 
 app.use('/run/goal', express.json(), (req: Request, res: Response) => {
+  // 目标搜索关键词
   const keywords = req.body?.keywords ?? '';
   res.json(req.body);
 });

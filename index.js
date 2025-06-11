@@ -45,6 +45,7 @@ app.use('/detail', express_1.default.json(), (req, res) => {
 });
 app.use('/run/script', express_1.default.json(), (req, res) => {
     var _a, _b, _c, _d, _e, _f;
+    // 脚本搜索关键字
     const keywords = (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.keywords) !== null && _b !== void 0 ? _b : '';
     // 持续时长，默认两分钟
     const duration = (_d = (_c = req.body) === null || _c === void 0 ? void 0 : _c.duration) !== null && _d !== void 0 ? _d : 60 * 2;
@@ -54,6 +55,7 @@ app.use('/run/script', express_1.default.json(), (req, res) => {
 });
 app.use('/run/goal', express_1.default.json(), (req, res) => {
     var _a, _b;
+    // 目标搜索关键词
     const keywords = (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.keywords) !== null && _b !== void 0 ? _b : '';
     res.json(req.body);
 });
