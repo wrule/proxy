@@ -41,12 +41,12 @@ function updateCookie() {
             userName: "admin",
         });
         cookie = ((_a = res.headers['set-cookie']) !== null && _a !== void 0 ? _a : []).map((item) => item.split(';')[0]).join('; ');
-        return cookie;
+        console.log(cookie);
     });
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(yield updateCookie());
+        yield updateCookie();
         app.listen(3000);
         console.log('app.listen(3000)...');
     });

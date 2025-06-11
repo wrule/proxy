@@ -33,11 +33,11 @@ async function updateCookie() {
     userName: "admin",
   });
   cookie = (res.headers['set-cookie'] ?? []).map((item) => item.split(';')[0]).join('; ');
-  return cookie;
+  console.log(cookie);
 }
 
 async function main() {
-  console.log(await updateCookie());
+  await updateCookie();
   app.listen(3000);
   console.log('app.listen(3000)...');
 }
