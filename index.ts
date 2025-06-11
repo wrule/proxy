@@ -12,7 +12,8 @@ app.use('/test', express.json(), (req: Request, res: Response) => {
 });
 
 app.use('/detail', express.json(), (req: Request, res: Response) => {
-  const { type, keywords } = req.body;
+  const type = req.body?.type ?? '';
+  const keywords = req.body?.keywords ?? '';
   if (type === 'SCRIPT') {
     res.json({
       success: true,

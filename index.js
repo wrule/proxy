@@ -21,7 +21,9 @@ app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
 app.use('/detail', express_1.default.json(), (req, res) => {
-    const { type, keywords } = req.body;
+    var _a, _b, _c, _d;
+    const type = (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.type) !== null && _b !== void 0 ? _b : '';
+    const keywords = (_d = (_c = req.body) === null || _c === void 0 ? void 0 : _c.keywords) !== null && _d !== void 0 ? _d : '';
     if (type === 'SCRIPT') {
         res.json({
             success: true,
