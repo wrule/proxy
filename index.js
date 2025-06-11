@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
 const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
@@ -19,11 +20,11 @@ const dayjs_1 = __importDefault(require("dayjs"));
 let cookie = '';
 const envId = () => { var _a; return (_a = /sys_env_id=(\d+)/.exec(cookie)) === null || _a === void 0 ? void 0 : _a[1]; };
 const http = () => axios_1.default.create({
-    baseURL: `http://10.10.30.103:8081/api`,
+    baseURL: `${process.env.XSEA_URL}/api`,
     headers: { cookie },
 });
 const httpPaaS = () => axios_1.default.create({
-    baseURL: `http://10.10.30.103:8083/api`,
+    baseURL: `${process.env.PAAS_URL}/api`,
     headers: { cookie },
 });
 const app = (0, express_1.default)();
@@ -151,9 +152,9 @@ app.use('/run/script', express_1.default.json(), (req, res) => __awaiter(void 0,
         });
         const success = execData.success && typeof execData.object === 'string';
         res.json(Object.assign({ success: !!success }, (success ? {
-            prompt: `脚本"${script.data.scriptName}"压测启动成功！持续时间${duration}秒，最大并发${maxUserNum}。[点击查看压测执行页面](http://10.10.30.103:8081/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object})`,
-            execUrl: `http://10.10.30.103:8081/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object}`,
-            sceneUrl: `http://10.10.30.103:8081/${envId()}/product/business/${productId}/plan/target?id=${targetPlan.id}&goalId=${targetGoal.id}`,
+            prompt: `脚本"${script.data.scriptName}"压测启动成功！持续时间${duration}秒，最大并发${maxUserNum}。[点击查看压测执行页面](${process.env.XSEA_URL}/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object})`,
+            execUrl: `${process.env.XSEA_URL}/${envId()}/product/business/${productId}/plan/targetExecute?sceneExecId=${execData.object}`,
+            sceneUrl: `${process.env.XSEA_URL}/${envId()}/product/business/${productId}/plan/target?id=${targetPlan.id}&goalId=${targetGoal.id}`,
         } : {
             prompt: `压测启动失败：${execData.message || '未知错误'}`,
             errorInfo: execData,
@@ -182,7 +183,7 @@ app.use('/run/goal', express_1.default.json(), (req, res) => __awaiter(void 0, v
     });
     const execId = data.object;
     res.json(Object.assign({ success: data.success }, (data.success ? {
-        prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
+        prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](${process.env.XSEA_URL}/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
     } : {
         message: data.message,
     })));
@@ -192,7 +193,7 @@ app.use('/api', (req, res, next) => {
     next();
 });
 const proxyMiddleware = (0, http_proxy_middleware_1.createProxyMiddleware)({
-    target: 'http://10.10.30.103:8081/api',
+    target: `${process.env.XSEA_URL}/api`,
     changeOrigin: true,
 });
 app.use('/api', proxyMiddleware);
@@ -201,11 +202,11 @@ function updateCookie() {
         var _a;
         const res = yield httpPaaS().post(`paas/users/login`, {
             loginType: "USERNAME",
-            password: "8AoKBvcXDBCI/ogMgvNQNg==",
+            password: process.env.PASSWORD,
             sessionId: "",
             sig: "",
             token: "",
-            userName: "admin",
+            userName: process.env.USER_NAME,
         });
         cookie = ((_a = res.headers['set-cookie']) !== null && _a !== void 0 ? _a : []).map((item) => item.split(';')[0]).join('; ');
         console.log(cookie);

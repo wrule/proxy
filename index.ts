@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import axios from 'axios';
 import express from 'express';
 import type { NextFunction, Request, Response } from 'express';
