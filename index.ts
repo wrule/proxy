@@ -4,13 +4,11 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 
-app.use(express.json()).use('/test', (req: Request, res: Response) => {
-  console.log(req.url, req.body);
+app.use('/test', express.json(), (req: Request, res: Response) => {
   res.json(req.body);
 });
 
 app.use('/api', (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.url, req.body);
   req.headers.cookie = 'sys_token=13e2ad0f65574cc497759e121573de67; sys_env_id=822313712173449216; sys_env_code=Init';
   next();
 });
