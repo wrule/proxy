@@ -29,7 +29,6 @@ const proxyMiddleware = (0, http_proxy_middleware_1.createProxyMiddleware)({
     changeOrigin: true,
 });
 app.use('/api', proxyMiddleware);
-app.listen(3000);
 function updateCookie() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
@@ -48,6 +47,8 @@ function updateCookie() {
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log(yield updateCookie());
+        app.listen(3000);
+        console.log('app.listen(3000)...');
     });
 }
 main();

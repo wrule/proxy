@@ -23,8 +23,6 @@ const proxyMiddleware = createProxyMiddleware<Request, Response>({
 
 app.use('/api', proxyMiddleware);
 
-app.listen(3000);
-
 async function updateCookie() {
   const res = await axios.post(`http://10.10.30.103:8083/api/paas/users/login`, {
     loginType: "USERNAME",
@@ -40,6 +38,8 @@ async function updateCookie() {
 
 async function main() {
   console.log(await updateCookie());
+  app.listen(3000);
+  console.log('app.listen(3000)...');
 }
 
 main();
