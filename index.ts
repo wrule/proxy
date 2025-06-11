@@ -213,11 +213,11 @@ app.use('/api', proxyMiddleware);
 async function updateCookie() {
   const res = await httpPaaS().post(`paas/users/login`, {
     loginType: "USERNAME",
-    password: "8AoKBvcXDBCI/ogMgvNQNg==",
+    password: process.env.PASSWORD,
     sessionId: "",
     sig: "",
     token: "",
-    userName: "admin",
+    userName: process.env.USER_NAME,
   });
   cookie = (res.headers['set-cookie'] ?? []).map((item) => item.split(';')[0]).join('; ');
   console.log(cookie);
