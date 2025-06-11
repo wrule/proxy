@@ -44,9 +44,17 @@ app.use('/detail', express_1.default.json(), (req, res) => {
     }
 });
 app.use('/run/script', express_1.default.json(), (req, res) => {
+    var _a, _b, _c, _d, _e, _f;
+    const keywords = (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.keywords) !== null && _b !== void 0 ? _b : '';
+    // 持续时长，默认两分钟
+    const duration = (_d = (_c = req.body) === null || _c === void 0 ? void 0 : _c.duration) !== null && _d !== void 0 ? _d : 60 * 2;
+    // 最大并发，默认100
+    const maxUserNum = (_f = (_e = req.body) === null || _e === void 0 ? void 0 : _e.maxUserNum) !== null && _f !== void 0 ? _f : 100;
     res.json(req.body);
 });
 app.use('/run/goal', express_1.default.json(), (req, res) => {
+    var _a, _b;
+    const keywords = (_b = (_a = req.body) === null || _a === void 0 ? void 0 : _a.keywords) !== null && _b !== void 0 ? _b : '';
     res.json(req.body);
 });
 app.use('/api', (req, res, next) => {

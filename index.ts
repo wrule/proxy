@@ -33,10 +33,16 @@ app.use('/detail', express.json(), (req: Request, res: Response) => {
 });
 
 app.use('/run/script', express.json(), (req: Request, res: Response) => {
+  const keywords = req.body?.keywords ?? '';
+  // 持续时长，默认两分钟
+  const duration = req.body?.duration ?? 60 * 2;
+  // 最大并发，默认100
+  const maxUserNum = req.body?.maxUserNum ?? 100;
   res.json(req.body);
 });
 
 app.use('/run/goal', express.json(), (req: Request, res: Response) => {
+  const keywords = req.body?.keywords ?? '';
   res.json(req.body);
 });
 
