@@ -87,10 +87,11 @@ app.use('/run/goal', express_1.default.json(), (req, res) => __awaiter(void 0, v
         id: goal.data.sceneId,
     });
     const execId = data.object;
-    res.json({
-        success: true,
+    res.json(Object.assign({ success: data.success }, (data.success ? {
         prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
-    });
+    } : {
+        message: data.message,
+    })));
 }));
 app.use('/api', (req, res, next) => {
     req.headers.cookie = cookie;

@@ -78,8 +78,12 @@ app.use('/run/goal', express.json(), async (req: Request, res: Response) => {
   });
   const execId = data.object;
   res.json({
-    success: true,
-    prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
+    success: data.success,
+    ...(data.success ? {
+      prompt: `目标执行成功，请以markdown url的形式引导用户查看压测监控，[${goal.data.goalName}压测监控页面](http://10.10.30.103:8081/${envId()}/product/business/${goal.data.productId}/plan/targetExecute?sceneExecId=${execId})`,
+    } : {
+      message: data.message,
+    }),
   });
 });
 
