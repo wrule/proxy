@@ -8,15 +8,51 @@ import dayjs from 'dayjs';
 let cookie = '';
 const envId = () => /sys_env_id=(\d+)/.exec(cookie)?.[1];
 
-const http = () => axios.create({
-  baseURL: `${process.env.XSEA_URL}/api`,
-  headers: { cookie },
-});
+const http = () => {
+  const instance = axios.create({
+    baseURL: `${process.env.XSEA_URL}/api`,
+    headers: { cookie },
+  });
+  
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      if (error.response?.status === 401) {
+        console.log('检测到401错误，正在更新cookie...');
+        await updateCookie();
+        // 更新请求头中的cookie并重试
+        error.config.headers.cookie = cookie;
+        return instance.request(error.config);
+      }
+      return Promise.reject(error);
+    }
+  );
+  
+  return instance;
+};
 
-const httpPaaS = () => axios.create({
-  baseURL: `${process.env.PAAS_URL}/api`,
-  headers: { cookie },
-});
+const httpPaaS = () => {
+  const instance = axios.create({
+    baseURL: `${process.env.PAAS_URL}/api`,
+    headers: { cookie },
+  });
+  
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      if (error.response?.status === 401) {
+        console.log('检测到401错误，正在更新cookie...');
+        await updateCookie();
+        // 更新请求头中的cookie并重试
+        error.config.headers.cookie = cookie;
+        return instance.request(error.config);
+      }
+      return Promise.reject(error);
+    }
+  );
+  
+  return instance;
+};
 
 const app = express();
 

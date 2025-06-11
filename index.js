@@ -19,14 +19,42 @@ const http_proxy_middleware_1 = require("http-proxy-middleware");
 const dayjs_1 = __importDefault(require("dayjs"));
 let cookie = '';
 const envId = () => { var _a; return (_a = /sys_env_id=(\d+)/.exec(cookie)) === null || _a === void 0 ? void 0 : _a[1]; };
-const http = () => axios_1.default.create({
-    baseURL: `${process.env.XSEA_URL}/api`,
-    headers: { cookie },
-});
-const httpPaaS = () => axios_1.default.create({
-    baseURL: `${process.env.PAAS_URL}/api`,
-    headers: { cookie },
-});
+const http = () => {
+    const instance = axios_1.default.create({
+        baseURL: `${process.env.XSEA_URL}/api`,
+        headers: { cookie },
+    });
+    instance.interceptors.response.use((response) => response, (error) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
+        if (((_a = error.response) === null || _a === void 0 ? void 0 : _a.status) === 401) {
+            console.log('检测到401错误，正在更新cookie...');
+            yield updateCookie();
+            // 更新请求头中的cookie并重试
+            error.config.headers.cookie = cookie;
+            return instance.request(error.config);
+        }
+        return Promise.reject(error);
+    }));
+    return instance;
+};
+const httpPaaS = () => {
+    const instance = axios_1.default.create({
+        baseURL: `${process.env.PAAS_URL}/api`,
+        headers: { cookie },
+    });
+    instance.interceptors.response.use((response) => response, (error) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
+        if (((_a = error.response) === null || _a === void 0 ? void 0 : _a.status) === 401) {
+            console.log('检测到401错误，正在更新cookie...');
+            yield updateCookie();
+            // 更新请求头中的cookie并重试
+            error.config.headers.cookie = cookie;
+            return instance.request(error.config);
+        }
+        return Promise.reject(error);
+    }));
+    return instance;
+};
 const app = (0, express_1.default)();
 app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
