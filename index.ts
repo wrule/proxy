@@ -12,7 +12,7 @@ app.use('/test', express.json(), (req: Request, res: Response) => {
 });
 
 app.use('/api', (req: Request, res: Response, next: NextFunction) => {
-  req.headers.cookie = 'sys_token=13e2ad0f65574cc497759e121573de67; sys_env_id=822313712173449216; sys_env_code=Init';
+  req.headers.cookie = cookie;
   next();
 });
 

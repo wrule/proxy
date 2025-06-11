@@ -21,7 +21,7 @@ app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
 });
 app.use('/api', (req, res, next) => {
-    req.headers.cookie = 'sys_token=13e2ad0f65574cc497759e121573de67; sys_env_id=822313712173449216; sys_env_code=Init';
+    req.headers.cookie = cookie;
     next();
 });
 const proxyMiddleware = (0, http_proxy_middleware_1.createProxyMiddleware)({
