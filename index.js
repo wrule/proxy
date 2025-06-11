@@ -46,10 +46,13 @@ app.use('/detail', express_1.default.json(), (req, res) => __awaiter(void 0, voi
     }
     else if (type === 'RECORD') {
         const record = (yield vectorQuery(type, keywords))[0];
+        const [{ data: detail }] = yield Promise.all([
+            http().post(`xsea/report/query`, { id: record.data.recordId, workspaceId: record.data.productId }),
+        ]);
         res.json({
             success: true,
             prompt: `请向用户简要解释 detail 字段内的关键信息`,
-            detail: record,
+            detail,
         });
     }
     else {

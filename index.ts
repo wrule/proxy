@@ -37,10 +37,13 @@ app.use('/detail', express.json(), async (req: Request, res: Response) => {
     });
   } else if (type === 'RECORD') {
     const record = (await vectorQuery(type, keywords))[0];
+    const [{ data: detail }] = await Promise.all([
+      http().post(`xsea/report/query`, { id: record.data.recordId, workspaceId: record.data.productId }),
+    ]);
     res.json({
       success: true,
       prompt: `请向用户简要解释 detail 字段内的关键信息`,
-      detail: record,
+      detail,
     });
   } else {
     res.json({
