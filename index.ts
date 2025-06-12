@@ -248,6 +248,8 @@ const proxyMiddleware = createProxyMiddleware<Request, Response>({
 app.use('/api', proxyMiddleware);
 
 async function updateCookie() {
+  // 暂时不需要更新cookie
+  return;
   const res = await httpPaaS().post(`paas/users/login`, {
     loginType: "USERNAME",
     password: process.env.PASSWORD,
