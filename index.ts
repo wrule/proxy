@@ -5,7 +5,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import dayjs from 'dayjs';
 
-let cookie = '';
+let cookie = process.env.COOKIE!;
 const envId = () => /sys_env_id=(\d+)/.exec(cookie)?.[1];
 
 const http = () => {

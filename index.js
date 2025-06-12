@@ -17,7 +17,7 @@ const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
 const dayjs_1 = __importDefault(require("dayjs"));
-let cookie = '';
+let cookie = process.env.COOKIE;
 const envId = () => { var _a; return (_a = /sys_env_id=(\d+)/.exec(cookie)) === null || _a === void 0 ? void 0 : _a[1]; };
 const http = () => {
     const instance = axios_1.default.create({
@@ -58,6 +58,9 @@ const httpPaaS = () => {
 const app = (0, express_1.default)();
 app.use('/test', express_1.default.json(), (req, res) => {
     res.json(req.body);
+});
+app.use('/cookie', express_1.default.json(), (req, res) => {
+    cookie = req.body.cookie;
 });
 app.use('/detail', express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
@@ -228,6 +231,8 @@ app.use('/api', proxyMiddleware);
 function updateCookie() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
+        // 暂时不需要更新cookie
+        return;
         const res = yield httpPaaS().post(`paas/users/login`, {
             loginType: "USERNAME",
             password: process.env.PASSWORD,
