@@ -60,6 +60,10 @@ app.use('/test', express.json(), (req: Request, res: Response) => {
   res.json(req.body);
 });
 
+app.use('/cookie', express.json(), (req: Request, res: Response) => {
+  cookie = req.body.cookie;
+});
+
 app.use('/detail', express.json(), async (req: Request, res: Response) => {
   const type = req.body?.type ?? '';
   const keywords = req.body?.keywords ?? '';
